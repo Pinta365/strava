@@ -16,18 +16,42 @@ A cross-runtime TypeScript client for the Strava API v3. Works on Deno, Node.js 
 
 ### Deno
 
-```typescript
-import { StravaClient } from "https://deno.land/x/strava/mod.ts";
+```bash
+deno add jsr:@pinta365/strava
 ```
 
-### Node.js / Bun
+### Node.js
+
+#### Using npm
 
 ```bash
 npm install @pinta365/strava
 ```
 
-```typescript
-import { StravaClient } from "@pinta365/strava";
+#### Using JSR (recommended)
+
+```bash
+npx jsr add @pinta365/strava
+```
+
+#### Using pnpm
+
+```bash
+pnpm i jsr:@pinta365/strava
+```
+
+### Bun
+
+#### Using JSR (recommended)
+
+```bash
+bunx jsr add @pinta365/strava
+```
+
+#### Using npm
+
+```bash
+bun add @pinta365/strava
 ```
 
 ## Quick Start
