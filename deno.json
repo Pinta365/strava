@@ -1,6 +1,6 @@
 {
     "name": "@pinta365/strava",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "exports": "./mod.ts",
     "tasks": {
         "pre:push": "deno fmt --check && deno lint && deno check mod.ts && deno test -A",

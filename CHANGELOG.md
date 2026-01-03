@@ -7,6 +7,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.0.3] - 2026-01-04
+
 ### Added
 
 - Additional JSDoc/TSDoc documentation for TokenStore interface and implementations
@@ -64,6 +66,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
   - `activities.analyze()` - Comprehensive activity analysis with zones, laps, best efforts, and computed insights
   - `athletes.getStatsWithActivities()` - Athlete profile with stats, recent activities, and gear
 
-[Unreleased]: https://github.com/Pinta365/strava/compare/v0.0.2...HEAD
+[Unreleased]: https://github.com/Pinta365/strava/compare/v0.0.3...HEAD
+[0.0.3]: https://github.com/Pinta365/strava/compare/v0.0.2...v0.0.3
 [0.0.2]: https://github.com/Pinta365/strava/compare/v0.0.1...v0.0.2
 [0.0.1]: https://github.com/Pinta365/strava/releases/tag/v0.0.1
