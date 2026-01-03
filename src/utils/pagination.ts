@@ -19,6 +19,7 @@ export class PaginatedIterator<T> {
 
     /**
      * Get next page
+     * @returns True if a page was fetched, false if no more pages
      */
     async next(): Promise<boolean> {
         if (!this.hasMore) {
@@ -38,6 +39,7 @@ export class PaginatedIterator<T> {
 
     /**
      * Get current page items
+     * @returns Array of items from the current page
      */
     get current(): T[] {
         return this.currentItems;
@@ -45,13 +47,14 @@ export class PaginatedIterator<T> {
 
     /**
      * Check if there are more pages
+     * @returns True if there are more pages available
      */
     get hasMorePages(): boolean {
         return this.hasMore;
     }
 
     /**
-     * Reset iterator
+     * Reset iterator to start from the first page
      */
     reset(): void {
         this.currentPage = 1;

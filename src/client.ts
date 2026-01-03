@@ -14,18 +14,31 @@ import type { RateLimitStrategy, RequestConfig, RetryConfig } from "./types/comm
  * Client configuration options
  */
 export interface ClientOptions {
+    /** Strava client ID */
     clientId: string;
+    /** Strava client secret */
     clientSecret: string;
+    /** OAuth redirect URI */
     redirectUri?: string;
+    /** Token storage implementation (default: auto-detected based on runtime) */
     tokenStore?: TokenStore;
+    /** Base URL for API requests (default: "https://www.strava.com/api/v3") */
     baseUrl?: string;
+    /** Request timeout in milliseconds (default: 30000) */
     timeout?: number;
+    /** Retry configuration */
     retries?: RetryConfig;
+    /** Rate limit handling strategy (default: "queue") */
     rateLimitStrategy?: RateLimitStrategy;
+    /** Request deduplication window in milliseconds (default: 5000) */
     deduplicationWindow?: number;
+    /** Normalize snake_case keys to camelCase (default: true) */
     normalizeKeys?: boolean;
+    /** Transform ISO date strings to Date objects (default: true) */
     transformDates?: boolean;
+    /** Flatten nested response structures (default: true) */
     flattenResponses?: boolean;
+    /** Add computed fields (pace, duration, etc.) (default: true) */
     addComputedFields?: boolean;
 }
 
@@ -33,7 +46,9 @@ export interface ClientOptions {
  * Authentication credentials
  */
 export interface AuthCredentials {
+    /** Authorization code from OAuth callback */
     code: string;
+    /** Redirect URI used in authorization (optional, uses client default if not provided) */
     redirectUri?: string;
 }
 
@@ -59,6 +74,10 @@ export class StravaClient {
     private _uploads?: UploadsResource;
     private _streams?: StreamsResource;
 
+    /**
+     * Create a new Strava API client
+     * @param options - Client configuration options
+     */
     constructor(options: ClientOptions) {
         this.options = {
             baseUrl: options.baseUrl || "https://www.strava.com/api/v3",
@@ -88,6 +107,7 @@ export class StravaClient {
 
     /**
      * Authenticate with authorization code
+     * @param credentials - Authentication credentials
      */
     async authenticate(credentials: AuthCredentials): Promise<void> {
         await this.oauthManager.authenticate(
@@ -104,7 +124,13 @@ export class StravaClient {
     }
 
     /**
-     * Get authorization URL
+     * Get authorization URL for OAuth flow
+     * @param options - Authorization URL options
+     * @param options.redirectUri - Redirect URI (optional, uses client default if not provided)
+     * @param options.scope - OAuth scopes to request
+     * @param options.state - Optional state parameter for CSRF protection
+     * @param options.approvalPrompt - Approval prompt behavior (default: "auto")
+     * @returns Authorization URL to redirect user to
      */
     getAuthorizationUrl(options: {
         redirectUri?: string;
@@ -122,6 +148,8 @@ export class StravaClient {
 
     /**
      * Get current access token (for direct fetch calls)
+     * @returns Current access token
+     * @throws Error if not authenticated
      */
     async getAccessToken(): Promise<string> {
         const token = await this.oauthManager.getToken();
@@ -133,6 +161,8 @@ export class StravaClient {
 
     /**
      * Low-level request method
+     * @param config - Request configuration
+     * @returns Response data
      */
     async request<T>(config: RequestConfig): Promise<T> {
         const token = await this.oauthManager.getToken();
@@ -154,6 +184,9 @@ export class StravaClient {
         });
     }
 
+    /**
+     * Athletes resource
+     */
     get athletes(): AthletesResource {
         if (!this._athletes) {
             this._athletes = new AthletesResource(this);
@@ -161,6 +194,9 @@ export class StravaClient {
         return this._athletes;
     }
 
+    /**
+     * Activities resource
+     */
     get activities(): ActivitiesResource {
         if (!this._activities) {
             this._activities = new ActivitiesResource(this);
@@ -168,6 +204,9 @@ export class StravaClient {
         return this._activities;
     }
 
+    /**
+     * Segments resource
+     */
     get segments(): SegmentsResource {
         if (!this._segments) {
             this._segments = new SegmentsResource(this);
@@ -175,6 +214,9 @@ export class StravaClient {
         return this._segments;
     }
 
+    /**
+     * Segment efforts resource
+     */
     get segmentEfforts(): SegmentEffortsResource {
         if (!this._segmentEfforts) {
             this._segmentEfforts = new SegmentEffortsResource(this);
@@ -182,6 +224,9 @@ export class StravaClient {
         return this._segmentEfforts;
     }
 
+    /**
+     * Clubs resource
+     */
     get clubs(): ClubsResource {
         if (!this._clubs) {
             this._clubs = new ClubsResource(this);
@@ -189,6 +234,9 @@ export class StravaClient {
         return this._clubs;
     }
 
+    /**
+     * Gears resource
+     */
     get gears(): GearsResource {
         if (!this._gears) {
             this._gears = new GearsResource(this);
@@ -196,6 +244,9 @@ export class StravaClient {
         return this._gears;
     }
 
+    /**
+     * Routes resource
+     */
     get routes(): RoutesResource {
         if (!this._routes) {
             this._routes = new RoutesResource(this);
@@ -203,6 +254,9 @@ export class StravaClient {
         return this._routes;
     }
 
+    /**
+     * Uploads resource
+     */
     get uploads(): UploadsResource {
         if (!this._uploads) {
             this._uploads = new UploadsResource(this);
@@ -210,6 +264,9 @@ export class StravaClient {
         return this._uploads;
     }
 
+    /**
+     * Streams resource
+     */
     get streams(): StreamsResource {
         if (!this._streams) {
             this._streams = new StreamsResource(this);

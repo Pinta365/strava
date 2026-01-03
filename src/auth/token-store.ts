@@ -20,8 +20,19 @@ export interface TokenData {
  * Token storage interface
  */
 export interface TokenStore {
+    /**
+     * Get stored token data
+     * @returns Token data or null if not found
+     */
     get(): Promise<TokenData | null>;
+    /**
+     * Store token data
+     * @param token - Token data to store
+     */
     set(token: TokenData): Promise<void>;
+    /**
+     * Clear stored token data
+     */
     clear(): Promise<void>;
 }
 
@@ -31,15 +42,26 @@ export interface TokenStore {
 export class MemoryTokenStore implements TokenStore {
     private token: TokenData | null = null;
 
+    /**
+     * Get stored token data
+     * @returns Token data or null if not found
+     */
     get(): Promise<TokenData | null> {
         return Promise.resolve(this.token);
     }
 
+    /**
+     * Store token data
+     * @param token - Token data to store
+     */
     set(token: TokenData): Promise<void> {
         this.token = token;
         return Promise.resolve();
     }
 
+    /**
+     * Clear stored token data
+     */
     clear(): Promise<void> {
         this.token = null;
         return Promise.resolve();
@@ -52,10 +74,17 @@ export class MemoryTokenStore implements TokenStore {
 export class LocalStorageTokenStore implements TokenStore {
     private readonly key: string;
 
+    /**
+     * @param key - localStorage key to use (default: "strava_tokens")
+     */
     constructor(key: string = "strava_tokens") {
         this.key = key;
     }
 
+    /**
+     * Get stored token data
+     * @returns Token data or null if not found
+     */
     get(): Promise<TokenData | null> {
         if (CurrentRuntime !== Runtime.Browser) {
             throw new Error("LocalStorageTokenStore can only be used in browser environment");
@@ -71,6 +100,10 @@ export class LocalStorageTokenStore implements TokenStore {
         }
     }
 
+    /**
+     * Store token data
+     * @param token - Token data to store
+     */
     set(token: TokenData): Promise<void> {
         if (CurrentRuntime !== Runtime.Browser) {
             throw new Error("LocalStorageTokenStore can only be used in browser environment");
@@ -80,6 +113,9 @@ export class LocalStorageTokenStore implements TokenStore {
         return Promise.resolve();
     }
 
+    /**
+     * Clear stored token data
+     */
     clear(): Promise<void> {
         if (CurrentRuntime !== Runtime.Browser) {
             throw new Error("LocalStorageTokenStore can only be used in browser environment");
@@ -96,10 +132,17 @@ export class LocalStorageTokenStore implements TokenStore {
 export class FileSystemTokenStore implements TokenStore {
     private readonly path: string;
 
+    /**
+     * @param path - File path to store tokens (default: "./.strava-tokens.json")
+     */
     constructor(path: string = "./.strava-tokens.json") {
         this.path = path;
     }
 
+    /**
+     * Get stored token data
+     * @returns Token data or null if not found
+     */
     async get(): Promise<TokenData | null> {
         try {
             let content: string;
@@ -116,6 +159,10 @@ export class FileSystemTokenStore implements TokenStore {
         }
     }
 
+    /**
+     * Store token data
+     * @param token - Token data to store
+     */
     async set(token: TokenData): Promise<void> {
         const content = JSON.stringify(token, null, 2);
         if (CurrentRuntime === Runtime.Node || CurrentRuntime === Runtime.Bun) {
@@ -127,6 +174,9 @@ export class FileSystemTokenStore implements TokenStore {
         }
     }
 
+    /**
+     * Clear stored token data
+     */
     async clear(): Promise<void> {
         try {
             if (CurrentRuntime === Runtime.Node || CurrentRuntime === Runtime.Bun) {

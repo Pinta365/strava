@@ -161,6 +161,12 @@ export class OAuthManager {
     private clientId: string;
     private clientSecret: string;
 
+    /**
+     * Create a new OAuth manager
+     * @param clientId - Strava client ID
+     * @param clientSecret - Strava client secret
+     * @param tokenStore - Token storage implementation
+     */
     constructor(clientId: string, clientSecret: string, tokenStore: TokenStore) {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
@@ -169,6 +175,8 @@ export class OAuthManager {
 
     /**
      * Get authorization URL
+     * @param options - Authorization URL options
+     * @returns Authorization URL to redirect user to
      */
     getAuthorizationUrl(options: Omit<AuthorizationUrlOptions, "clientId">): string {
         return getAuthorizationUrl({
@@ -179,6 +187,9 @@ export class OAuthManager {
 
     /**
      * Exchange code and store tokens
+     * @param code - Authorization code from OAuth callback
+     * @param redirectUri - Redirect URI used in authorization (optional)
+     * @returns Token data
      */
     async authenticate(code: string, redirectUri?: string): Promise<TokenData> {
         const token = await exchangeCode(code, this.clientId, this.clientSecret, redirectUri);
@@ -188,6 +199,7 @@ export class OAuthManager {
 
     /**
      * Get current token, refreshing if needed
+     * @returns Token data or null if not authenticated
      */
     async getToken(): Promise<TokenData | null> {
         const token = await this.tokenStore.get();
@@ -221,6 +233,7 @@ export class OAuthManager {
 
     /**
      * Manually refresh token
+     * @returns New token data
      */
     async refreshToken(): Promise<TokenData> {
         const token = await this.tokenStore.get();
@@ -246,6 +259,7 @@ export class OAuthManager {
 
     /**
      * Get current scopes
+     * @returns Array of current OAuth scopes
      */
     async getScopes(): Promise<StravaScope[]> {
         const token = await this.tokenStore.get();

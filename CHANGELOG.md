@@ -7,6 +7,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Additional JSDoc/TSDoc documentation for TokenStore interface and implementations
+- Parameter and return type documentation for OAuthManager methods
+- Property descriptions for ClientOptions and AuthCredentials interfaces
+- Documentation for StravaClient resource getters and methods
+- Constructor and method documentation for PaginatedIterator class
+
 ## [0.0.2] - 2026-01-03
 
 ### Added
