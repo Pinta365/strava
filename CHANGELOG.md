@@ -7,6 +7,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.0.2] - 2026-01-03
+
+### Added
+
+- Comprehensive JSDoc/TSDoc documentation for all exported symbols
+- Parameter and return type documentation for utility functions
+- Property descriptions for interfaces and types
+- Enhanced documentation coverage to meet JSR publishing requirements
+
 ## [0.0.1] - 2026-01-03
 
 ### Added
@@ -46,5 +55,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
   - `activities.analyze()` - Comprehensive activity analysis with zones, laps, best efforts, and computed insights
   - `athletes.getStatsWithActivities()` - Athlete profile with stats, recent activities, and gear
 
-[Unreleased]: https://github.com/Pinta365/strava/compare/v0.0.1...HEAD
+[Unreleased]: https://github.com/Pinta365/strava/compare/v0.0.2...HEAD
+[0.0.2]: https://github.com/Pinta365/strava/compare/v0.0.1...v0.0.2
 [0.0.1]: https://github.com/Pinta365/strava/releases/tag/v0.0.1
