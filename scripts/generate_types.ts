@@ -18,9 +18,7 @@ function getIndentConfig(): { useTabs: boolean; width?: number } {
         const denoJson = Deno.readTextFileSync("./deno.json");
         const config = JSON.parse(denoJson);
         const useTabs = config.fmt?.useTabs ?? false;
-        return useTabs
-            ? { useTabs: true }
-            : { useTabs: false, width: config.fmt?.indentWidth ?? 4 };
+        return useTabs ? { useTabs: true } : { useTabs: false, width: config.fmt?.indentWidth ?? 4 };
     } catch {
         return { useTabs: false, width: 4 };
     }
@@ -29,8 +27,8 @@ function getIndentConfig(): { useTabs: boolean; width?: number } {
 async function main(): Promise<void> {
     console.log("Generating types from Swagger spec...");
     await generateTypes(SWAGGER_URL, {
-        outputPath: OUTPUT_FILE,
-        indent: getIndentConfig()
+        output: OUTPUT_FILE,
+        indent: getIndentConfig(),
     });
     // Format to match project style (e.g. line width from deno.json)
     const formatProcess = new Deno.Command(Deno.execPath(), {
